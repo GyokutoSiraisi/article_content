@@ -54,7 +54,7 @@ var_label(df$Species)
 
 ### ラベルの除去
 var_label(df$Species) <- NULL
-df$Species <- remove_labels(df$Species)
+df$Species <- remove_labels(df$Species) # こちらも可
 
 ### 複数のラベルを付与
 var_label(df) <- list(
@@ -87,7 +87,7 @@ df <- remove_labels(df)
 
 ### ラベルの付与
 variable_label(df$Species) <- "学名（3種類）"
-# variable_label(df) <- c(Species = "学名（3種類）")
+variable_label(df) <- c(Species = "学名（3種類）") # こちらも可
 
 ### ラベルの確認
 variable_label(df$Species)
@@ -122,16 +122,25 @@ df <- unlabel(df)
 
 
 
-## csvにラベルつきで落とす ===============================
+# ラベルを保存する（csv, RData, RDS ------------------------------------------------
 
-### そのままcsvに（失敗）
+## RData
+save(df, file = "output/df.RData")
+# load("output/df.RData")
+
+## RDS
+saveRDS(df, "output/df.rds")
+# df <- readr::read_rds("output/df.rds")
+
+## csv
+### データはそのままcsvに
 readr::write_excel_csv(df, "output/iris.csv")
 
-### 前処理をしてからcsvに
+### ラベルを前処理をしてからcsvに
 df_label <-
   tibble(
     variable = colnames(df),
-    label = var_label(df, unlist = TRUE)
+    label    = labelled::var_label(df, unlist = TRUE)
   )
 readr::write_excel_csv(df_list, "output/iris_label.csv")
 
@@ -141,6 +150,20 @@ df_label <-
   deframe()
 
 df <- arrow::read_csv_arrow("output/iris.csv") %>%
-  set_variable_labels(.labels = df_label)
+  labelled::set_variable_labels(.labels = df_label)
+
+
+
+# 説明以外の用途（検索・作図） ----------------------------------------------------------
+
+## 検索
+look_for(df, "萼")　# 「萼」というラベルが含まれる変数を検索
+
+## 作図
+ggplot(df, aes(x = Sepal.Length, y = Sepal.Width, color = Species)) +
+  geom_point()
+
+
+
 
 
