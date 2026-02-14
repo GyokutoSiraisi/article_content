@@ -5,3 +5,4 @@ arrow_benchmark/.Rproj.user/
 *.txt
 .Rproj.user
 *.Rhistory
+*.parquet
