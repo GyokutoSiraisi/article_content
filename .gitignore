@@ -8,3 +8,4 @@ arrow_benchmark/.Rproj.user/
 *.parquet
 r_label/output/df.rds
 Nagoya_Sightseeing/data/Aichi_district/
+!Nagoya_Sightseeing/data/tourist_spot_Nagoya.csv
