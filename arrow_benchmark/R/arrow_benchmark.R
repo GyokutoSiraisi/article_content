@@ -253,7 +253,7 @@ p_middle <-
     )
 p_middle
 
-ggsave("output/bench_middle.png", plot =p_middle,
+ggsave("output/bench_middle.png", plot = p_middle,
        dpi = 300, width = 700*3, height = 500*3, units = "px")
 
 ## ベンチのプロット
